@@ -11,6 +11,7 @@
 #include <SimpleMath.h>
 #include <VertexTypes.h>
 #include "DebugCamera.h"
+#include <Model.h>
 
 
 // A basic game implementation that creates a D3D11 device and
@@ -79,4 +80,20 @@ private:
 	DirectX::SimpleMath::Matrix m_proj;
 
 	std::unique_ptr<DebugCamera> m_debugCamera;
+
+	// エフェクトファクトリー
+	std::unique_ptr<DirectX::EffectFactory> m_factory;
+
+	// モデル
+	std::unique_ptr<DirectX::Model> m_modelSkydome;		// 天球 
+	std::unique_ptr<DirectX::Model> m_modelSkydome2;	// 天球2 
+	std::unique_ptr<DirectX::Model> m_modelGround;		// 地面
+
+	// 球ワールド行列
+	DirectX::SimpleMath::Matrix m_worldBall[20 + 1];
+	// 回転
+	int rot;
+
+	// 地面ワールド行列
+	DirectX::SimpleMath::Matrix m_worldGround[200 * 200];
 };
