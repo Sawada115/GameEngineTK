@@ -13,6 +13,7 @@
 #include "DebugCamera.h"
 #include <Model.h>
 #include <Keyboard.h>
+#include "FollowCamera.h"
 
 
 // A basic game implementation that creates a D3D11 device and
@@ -114,4 +115,7 @@ private:
 	float m_tankRot;
 
 	DirectX::SimpleMath::Matrix m_worldTank;
+
+	// ƒJƒƒ‰
+	std::unique_ptr<FollowCamera> m_camera;
 };

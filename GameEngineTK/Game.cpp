@@ -125,6 +125,9 @@ void Game::Initialize(HWND window, int width, int height)
 	m_keyboard = std::make_unique<Keyboard>();
 
 	m_tankRot = 0;
+
+	// カメラの生成
+	m_camera = std::make_unique<FollowCamera>(m_outputWidth, m_outputHeight);
 }
 
 // Executes the basic game loop.
@@ -141,16 +144,40 @@ void Game::Tick()
 // Updates the world.
 void Game::Update(DX::StepTimer const& timer)
 {
-    float elapsedTime = float(timer.GetElapsedSeconds());
+	float elapsedTime = float(timer.GetElapsedSeconds());
 
-    // TODO: Add your game logic here.
-    elapsedTime;
+	// TODO: Add your game logic here.
+	elapsedTime;
 
 	// 毎フレーム更新処理
-	m_debugCamera->Update();
+	//m_debugCamera->Update();
 
+	m_camera->SetTargetPos(m_tankPos);
+	m_camera->SetTargetAngle(m_tankRot);
+	m_camera->Update();
+	// 自機追従カメラ
 	// ビュー行列の取得
-	m_view = m_debugCamera->GetCameraMatrix();
+	//m_view = m_debugCamera->GetCameraMatrix();
+	m_view = m_camera->GetViewMatrix();
+	// プロジェクション行列の取得
+	m_proj = m_camera->GetProjMatrix();
+	//m_camera->SetEyePos(m_tankPos);
+
+	//// ビュー行列の計算
+	//Vector3 eyepos(0, 0, 5.0f);		// 視点
+	//Vector3 refpos(0, 0, 0);		// 参照点
+	//static float angle = 0.0f;
+	//angle += 0.1f;
+	//Vector3 upvec(cosf(angle), sinf(angle), 0);			// 上方向ベクトル
+	//upvec.Normalize();				// ベクトルの正規化(長さを１にする)
+	//m_view = Matrix::CreateLookAt(eyepos, refpos, upvec);
+
+	// プロジェクション行列の計算
+	//float fovY = XMConvertToRadians(60.0f);						// 垂直方向視野角
+	//float aspect = (float)m_outputWidth / m_outputHeight;		// アスペクト比
+	//float nearClip = 0.1f;										// 手前描画距離制限
+	//float farClip = 1000.0f;									// 奥描画距離制限
+	//m_proj = Matrix::CreatePerspectiveFieldOfView(fovY, aspect, nearClip, farClip);
 
 	// 地面のワールド行列計算 ====================================================================
 	for (int i = 0; i < 200 * 200; i++)
