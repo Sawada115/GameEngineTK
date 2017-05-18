@@ -11,6 +11,7 @@
 // 多重インクルードの防止 ==================================================
 #pragma once
 #include "Camera.h"
+#include <Keyboard.h>
 
 class FollowCamera :public Camera
 {
@@ -21,7 +22,8 @@ public:
 	void Update() override;
 	void SetTargetPos(const DirectX::SimpleMath::Vector3& target);
 	void SetTargetAngle(float angle);
-
+	void SetKeyboard(DirectX::Keyboard* keyboard);
+	bool GetCameraFlug();
 	// カメラ距離
 	static const float CAMERA_DISTANCE;
 private:
@@ -30,5 +32,11 @@ private:
 
 	// 追従対象の角度
 	float m_targetAngle;
+
+	// キーボード
+	DirectX::Keyboard* m_keyboard;
+	// キーボードトラッカー
+	DirectX::Keyboard::KeyboardStateTracker m_keyboardTracker;
+	bool m_cameraFlug;
 };
 

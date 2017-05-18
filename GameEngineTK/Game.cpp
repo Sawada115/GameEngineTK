@@ -128,6 +128,7 @@ void Game::Initialize(HWND window, int width, int height)
 
 	// カメラの生成
 	m_camera = std::make_unique<FollowCamera>(m_outputWidth, m_outputHeight);
+	m_camera->SetKeyboard(m_keyboard.get());
 }
 
 // Executes the basic game loop.
@@ -365,8 +366,11 @@ void Game::Render()
 
 	m_modelSkydome->Draw(m_d3dContext.Get(), states, m_world, m_view, m_proj);
 
-	// タンクの描画
-	m_modelHead->Draw(m_d3dContext.Get(), states, m_worldTank, m_view, m_proj);
+	if (m_camera->GetCameraFlug())
+	{
+		// タンクの描画
+		m_modelHead->Draw(m_d3dContext.Get(), states, m_worldTank, m_view, m_proj);
+	}
 	m_batch->Begin();
 
 	// 線の描画
